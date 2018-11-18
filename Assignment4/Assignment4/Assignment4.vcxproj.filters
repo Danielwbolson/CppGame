@@ -22,17 +22,11 @@
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{e2706d75-dfb3-401c-9bdc-5e95f46c49f8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Component">
-      <UniqueIdentifier>{c4a8e61c-f48c-4e75-884f-426bcdfefd8c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Shaders\Phong">
       <UniqueIdentifier>{b159d736-acb8-417f-8847-020f9151bf7d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Component">
       <UniqueIdentifier>{83a966a0-a04b-4526-946b-1c11224e68e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Component\Colliders">
-      <UniqueIdentifier>{2cef7052-b2f9-44a8-8b6f-f0627461ba7a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Component\Collider">
       <UniqueIdentifier>{5de98c01-7083-45d5-9b4c-6faff61f43ef}</UniqueIdentifier>
@@ -48,6 +42,24 @@
     </Filter>
     <Filter Include="Resource Files\Maps">
       <UniqueIdentifier>{2199646a-1590-4a0c-97cc-07468df9719b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FileObjects">
+      <UniqueIdentifier>{d2077ae3-884b-48ce-9d10-098739f5781c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FileObjects">
+      <UniqueIdentifier>{0a246b4d-14ef-46ff-adc2-eba63beb1be8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Component">
+      <UniqueIdentifier>{c4a8e61c-f48c-4e75-884f-426bcdfefd8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Component\Colliders">
+      <UniqueIdentifier>{2cef7052-b2f9-44a8-8b6f-f0627461ba7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Data">
+      <UniqueIdentifier>{d35a418c-24a6-48af-a22c-44bc1099440a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Data">
+      <UniqueIdentifier>{95b16827-c780-42ac-8feb-b869d7b5bdf8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,17 +117,17 @@
     <ClInclude Include="MeshRenderer.h">
       <Filter>Header Files\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>Header Files\Utility</Filter>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\FileObjects</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
-      <Filter>Header Files\Utility</Filter>
+      <Filter>Header Files\FileObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files\Utility</Filter>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,20 +173,20 @@
     <ClCompile Include="MeshRenderer.cpp">
       <Filter>Source Files\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Source Files\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerMovement.cpp">
       <Filter>Source Files\Component</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Source Files\Utility</Filter>
+      <Filter>Source Files\FileObjects</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>Source Files\Utility</Filter>
+      <Filter>Source Files\FileObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

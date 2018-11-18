@@ -76,6 +76,24 @@ Vec3 Vec3::operator=(const Vec3& v) {
     return *this;
 }
 
+bool Vec3::operator==(const Vec3& v) const {
+    if (this == &v) return true;
+
+    if (this->x != x) return false;
+    if (this->y != y) return false;
+    if (this->z != z) return false;
+
+    return true;
+}
+
+bool Vec3::operator!=(const Vec3& v) const {
+    if (this == &v) return false;
+
+    if (this->x == x && this->y == y && this->z == z) return false;
+
+    return true;
+}
+
 
 // Vec3 Functions
 

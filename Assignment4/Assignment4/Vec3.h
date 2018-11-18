@@ -25,6 +25,8 @@ public:
     Vec3 operator/(const float) const;
     Vec3 operator-() const;
     Vec3 operator=(const Vec3&);
+    bool operator==(const Vec3&) const;
+    bool operator!=(const Vec3&) const;
 
     // Vec3 functions
     float Dot(const Vec3&) const;

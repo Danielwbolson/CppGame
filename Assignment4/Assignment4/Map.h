@@ -2,6 +2,8 @@
 #ifndef MAP_H_
 #define MAP_H_
 
+#include <vector>
+
 enum items {
     empty, wall, start, goal,
     door1, door2, door3, door4, door5, 
@@ -14,7 +16,7 @@ private:
     int width, height;
 
 public:
-    items* layout;
+    std::vector<int> layout;
 
     Map();
     int index(const int& i, const int& j) { return i * height + j; }

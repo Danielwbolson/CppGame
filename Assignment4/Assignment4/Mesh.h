@@ -9,7 +9,7 @@
 class Mesh {
 
 private:
-    int numVertices;
+    int numPositions;
     int numNormals;
     int numIndices;
 
@@ -24,7 +24,7 @@ public:
 
     std::string ComponentType() const { return "mesh"; }
 
-    int NumVerts() const { return numVertices; }
+    int NumPositions() const { return numPositions; }
     int NumNorms() const { return numNormals; }
     int NumIndices() const { return numIndices; }
 
@@ -32,6 +32,11 @@ public:
     std::vector<Vec3>* Normals() { return &normals; }
     std::vector<Vec2>* UVs() { return &uvs; }
     std::vector<unsigned short>* Indices() { return &indices; }
+
+    void SetPositions(const std::vector<Vec3>& p) { pos = p; numPositions = pos.size(); }
+    void SetNormals(const std::vector<Vec3>& n) { normals = n; numNormals = normals.size(); }
+    void SetUvs(const std::vector<Vec2>& u) { uvs = u; }
+    void SetIndices(const std::vector<unsigned short>& ind) { indices = ind; numIndices = indices.size(); }
 
 };
 #endif

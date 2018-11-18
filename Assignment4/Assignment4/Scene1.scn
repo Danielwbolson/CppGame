@@ -1,0 +1,20 @@
+# Attempt at a sample scene
+aspect_ratio 800 600
+
+# Wall
+gameObject wall
+# ambient, diffuse, specular
+material 1 1 1 1 1 1 0.2 0.2 0.2
+mesh meshes/wall.obj
+component transform 0 0 0
+component meshRenderer
+component boxCollider 10 10 0
+endGameObject
+
+# Player
+gameObject player
+component transform
+component boxCollider 0 0 0 2 2 1
+# position, lookat, up, fov, near_plane, far_plane
+component camera 0 0 0 0 0 -1 0 1 0 0.785 1 100
+endGameObject 

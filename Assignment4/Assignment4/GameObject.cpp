@@ -4,7 +4,9 @@
 #include "MeshRenderer.h"
 #include <algorithm>
 
-GameObject::GameObject() {}
+GameObject::GameObject() {
+    model = glm::mat4();
+}
 
 GameObject::~GameObject() {
     components.clear();
@@ -17,10 +19,10 @@ void GameObject::Update(const float& dt) {
     }
 }
 
-void GameObject::Render() {
+void GameObject::Render(const glm::mat4& v, const glm::mat4& p) {
     MeshRenderer* m = (MeshRenderer*)GetComponent("meshRenderer");
     if (m) {
-        m->Render();
+        m->Render(model, v, p);
     }
 }
 

@@ -6,11 +6,24 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <map>
 
 #include "Scene.h"
 #include "Map.h"
 
+#include "Component.h"
+#include "MeshRenderer.h"
+#include "Collider.h"
+#include "BoxCollider.h"
+#include "SphereCollider.h"
+#include "Transform.h"
 #include "Camera.h"
+#include "PlayerMovement.h"
+
+#include "Mesh.h"
+#include "GameObject.h"
+#include "Material.h"
+
 #include "Light.h"
 #include "DirectionalLight.h"
 #include "SpotLight.h"
@@ -18,6 +31,147 @@
 #include "AmbientLight.h"
 
 #include "Vec3.h"
+
+struct vertData {
+    int v;
+    int uv;
+    int n;
+
+    bool operator==(const vertData& rhs) {
+        if (v != rhs.v) { return false; }
+        if (uv != rhs.uv) { return false; }
+        if (n != rhs.n) { return false; }
+
+        return true;
+    }
+};
+
+static Mesh ObjParse(Mesh& mesh, const std::string fileName) {
+    FILE *fp;
+    char line[1024]; //Assumes no line is longer than 1024 characters!
+
+    // open the file containing the scene description
+    fp = fopen(fileName.c_str(), "r");
+
+    // check for errors in opening the file
+    if (fp == NULL) {
+        fprintf(stderr, "Can't open file '%s'\n", fileName.c_str());
+    }
+
+    std::vector<Vec3> rawVerts;
+    std::vector<Vec3> rawNormals;
+    std::vector<Vec2> rawUvs;
+
+    std::vector<Vec3> verts;
+    std::vector<Vec3> normals;
+    std::vector<Vec2> uvs;
+    std::vector<unsigned short> indices;
+
+    std::vector<vertData> vertMap;
+    int nextIndex = 0;
+    //Loop through reading each line
+    while (fgets(line, 1024, fp)) { //Assumes no line is longer than 1024 characters!
+        if (line[0] == '#') {
+            //fprintf(stderr, "Skipping comment: %s", line);
+            continue;
+        }
+
+        char command[1024];
+        int fieldsRead = sscanf(line, "%s ", command); //Read first word in the line (i.e., the command type)
+
+        if (fieldsRead < 1) { //No command read
+            //Blank line
+            continue;
+        }
+
+        if (line[0] == '#') {
+            //fprintf(stderr, "Skipping comment: %s", line);
+            continue;
+        }
+
+        // vertex
+        if (strcmp(command, "v") == 0) {
+            Vec3 v;
+
+            sscanf(line, "v %f %f %f", &v.x, &v.y, &v.z);
+            rawVerts.push_back(v);
+        }
+        // uvs
+        else if (strcmp(command, "vt") == 0) {
+            Vec2 uv;
+
+            sscanf(line, "vt %f %f", &uv.x, &uv.y);
+            rawUvs.push_back(uv);
+        }
+        // normals
+        else if (strcmp(command, "vn") == 0) {
+            Vec3 n;
+
+            sscanf(line, "vn %f %f %f", &n.x, &n.y, &n.z);
+            rawNormals.push_back(n);
+        }
+        // face
+        else if (strcmp(command, "f") == 0) {
+            int vert_info[3][3];
+
+            sscanf(line, "f %d/%d/%d %d/%d/%d %d/%d/%d",
+                &vert_info[0][0], &vert_info[0][1], &vert_info[0][2],
+                &vert_info[1][0], &vert_info[1][1], &vert_info[1][2],
+                &vert_info[2][0], &vert_info[2][1], &vert_info[2][2]);
+            // https://stackoverflow.com/questions/23349080/opengl-index-buffers-difficulties/23356738#23356738
+
+            for (int i = 0; i < 3; i++) {
+                vertData temp_vert = vertData{
+                    temp_vert.v = vert_info[i][0],
+                    temp_vert.uv = vert_info[i][1],
+                    temp_vert.n = vert_info[i][2]
+                };
+
+                bool exists = false;
+                for (int j = 0; j < vertMap.size(); j++) {
+                    if (temp_vert == vertMap[j]) {
+                        exists = true;
+                        indices.push_back(j);
+                        break;
+                    }
+                }
+
+                if (!exists) {
+                    indices.push_back(nextIndex);
+                    vertMap.push_back(temp_vert);
+                    nextIndex++;
+                    verts.push_back(rawVerts[temp_vert.v - 1]);
+                    uvs.push_back(rawUvs[temp_vert.uv - 1]);
+                    normals.push_back(rawNormals[temp_vert.n - 1]);
+                }
+            }
+        }
+        else { continue; }
+    }
+
+    mesh.SetPositions(verts);
+    mesh.SetNormals(normals);
+    mesh.SetUvs(uvs);
+    mesh.SetIndices(indices);
+
+    rawVerts.clear();
+    rawVerts.empty();
+    rawNormals.clear();
+    rawNormals.empty();
+    rawUvs.clear();
+    rawUvs.empty();
+
+    verts.clear();
+    verts.empty();
+    normals.clear();
+    normals.empty();
+    uvs.clear();
+    uvs.empty();
+    indices.clear();
+    indices.empty();
+
+    return mesh;
+}
 
 static Scene SceneParse(Scene& scene, std::string fileName) {
     FILE *fp;
@@ -32,6 +186,9 @@ static Scene SceneParse(Scene& scene, std::string fileName) {
     }
 
     Material currMaterial;
+    GameObject* currGameObject = new GameObject();
+    Mesh currMesh;
+    int window_width, window_height;
 
     //Loop through reading each line
     while (fgets(line, 1024, fp)) { //Assumes no line is longer than 1024 characters!
@@ -40,7 +197,7 @@ static Scene SceneParse(Scene& scene, std::string fileName) {
             continue;
         }
 
-        char command[100];
+        char command[1024];
         int fieldsRead = sscanf(line, "%s ", command); //Read first word in the line (i.e., the command type)
 
         if (fieldsRead < 1) { //No command read
@@ -48,89 +205,97 @@ static Scene SceneParse(Scene& scene, std::string fileName) {
             continue;
         }
 
-        if (strcmp(command, "camera") == 0) { //If the command is a camera
-            float px, py, pz;
-            float dx, dy, dz;
-            float ux, uy, uz;
-            float ha;
-            sscanf(line, "camera %f %f %f %f %f %f %f %f %f %f",
-                &px, &py, &pz, &dx, &dy, &dz, &ux, &uy, &uz, &ha);
-            
-            Vec3 right = Vec3(ux, uy, uz).Cross(Vec3(dx, dy, dz)).Normalize();
-            Vec3 up = Vec3(dx, dy, dz).Cross(Vec3(right.x, right.y, right.z)).Normalize();
+        if (strcmp(command, "aspect_ratio") == 0) {
+            sscanf(line, "aspect_ratio %d %d", &window_width, &window_height);
 
-            Camera cam = Camera(Vec3(px, py, pz), Vec3(dx, dy, dz).Normalize(), up, ha);
-            scene.camera = cam;
+            scene.window_width = window_width;
+            scene.window_height = window_height;
         }
-        else if (strcmp(command, "film_resolution") == 0) { // If the command is a film_resolution command
-            int width, height;
-            sscanf(line, "film_resolution %d %d", &width, &height);
+        else if (strcmp(command, "gameObject") == 0) {
+            currGameObject = new GameObject();
+            char name[1024];
 
-            scene.width = width;
-            scene.height = height;
+            sscanf(line, "gameObject %s", name);
+            currGameObject->name = name;
         }
-        else if (strcmp(command, "output_image") == 0) { // If the command is an output_image command
-            char outFile[1024];
-            sscanf(line, "output_image %s", outFile);
+        else if (strcmp(command, "component") == 0) {
+            char type[1024];
 
-            scene.image_path = outFile;
+            sscanf(line, "component %s", &type);
+
+            if (strcmp(type, "boxCollider") == 0) {
+                Vec3 pos;
+                float width, height;
+                int dynamic;
+                sscanf(line, "component boxCollider %f %f %f %f %f %d", 
+                    &pos.x, &pos.y, &pos.z, &width, &height, &dynamic);
+                if (currGameObject)
+                    currGameObject->AddComponent(new BoxCollider(pos, width, height, dynamic));
+            }
+            else if (strcmp(type, "sphereCollider") == 0) {
+                Vec3 pos;
+                float radius;
+                int dynamic;
+
+                sscanf(line, "component sphereCollider %f %f %f %f %d",
+                    &pos.x, &pos.y, &pos.z, &radius, &dynamic);
+
+                if (currGameObject)
+                    currGameObject->AddComponent(new SphereCollider(pos, radius, dynamic));
+            }
+            else if (strcmp(type, "camera") == 0) {
+                float px, py, pz;
+                float lax, lay, laz;
+                float ux, uy, uz;
+                float fov, np, fp;
+
+                sscanf(line, "component camera %f %f %f %f %f %f %f %f %f %f %f %f",
+                    &px, &py, &pz, &lax, &lay, &laz, &ux, &uy, &uz, &fov, &np, &fp);
+
+                if (currGameObject) {
+                    currGameObject->AddComponent(new Camera(
+                        Vec3(px, py, pz),
+                        Vec3(lax, lay, laz),
+                        Vec3(ux, uy, uz).Normalize(),
+                        window_width,
+                        window_height,
+                        fov, np, fp));
+                }
+            }
+            else if (strcmp(type, "meshRenderer") == 0) {
+                if (currGameObject)
+                    currGameObject->AddComponent(new MeshRenderer(currMesh, currMaterial));
+            }
+            else if (strcmp(type, "playerMovement") == 0) {
+                if (currGameObject)
+                    currGameObject->AddComponent(new PlayerMovement());
+            }
+            else if (strcmp(type, "transform") == 0) {
+                if (currGameObject)
+                    currGameObject->AddComponent(new Transform());
+            }
+            else { continue; }
         }
-        //else if (strcmp(command, "max_vertices") == 0) { // If the command is the number of max vertices
-        //    int n;
-        //    sscanf(line, "max_vertices %d", &n);
-
-        //    scene.max_vertices = n;
-        //    scene.vertices.reserve(n);
-        //}
-        //else if (strcmp(command, "max_normals") == 0) { // IF the command is the number of max normals
-        //    int n;
-        //    sscanf(line, "max_normals %d", &n);
-
-        //    scene.max_normals = n;
-        //    scene.normals.reserve(n);
-        //}
-        //else if (strcmp(command, "vertex") == 0) { // if the command is a vertex
-        //    float x, y, z;
-
-        //    sscanf(line, "vertex %f %f %f", &x, &y, &z);
-
-        //    if (scene.vertices.capacity() == scene.max_vertices)
-        //        scene.vertices.push_back(Vec3(x, y, z));
-        //    else {
-        //        fprintf(stderr, "max_vertices not specified\n");
-        //        exit(-1);
-        //    }
-        //}
-        //else if (strcmp(command, "normal") == 0) { // If the command is a normal
-        //    float x, y, z;
-
-        //    sscanf(line, "normal %f %f %f", &x, &y, &z);
-
-        //    if (scene.normals.capacity() == scene.max_normals)
-        //        scene.normals.push_back(Vec3(x, y, z).Normalize());
-        //    else {
-        //        fprintf(stderr, "max_normals not specified\n");
-        //        exit(-1);
-        //    }
-        //}
-        else if (strcmp(command, "background") == 0) { // If the command is a background command
-            float r, g, b;
-            sscanf(line, "background %f %f %f", &r, &g, &b);
-
-            scene.background = Vec3(r, g, b);
+        else if (strcmp(command, "endGameObject") == 0) {
+            scene.gameObjects.push_back(currGameObject);
         }
-        //else if (strcmp(command, "material") == 0) { // If the command is a material
-        //    float ar, ag, ab; // ambient coefficients
-        //    float dr, dg, db; // diffuse coefficients
-        //    float sr, sg, sb, ns; // specular coefficients
-        //    float tr, tg, tb, ior; // transmissiveness and index of refraction
+        else if (strcmp(command, "mesh") == 0) {
+            char filename[1024];
 
-        //    sscanf(line, "material %f %f %f %f %f %f %f %f %f %f %f %f %f %f\n",
-        //        &ar, &ag, &ab, &dr, &dg, &db, &sr, &sg, &sb, &ns, &tr, &tg, &tb, &ior);
+            sscanf(line, "mesh %s", &filename);
 
-        //    currMaterial = Material(Vec3(ar, ag, ab), Vec3(dr, dg, db), Vec3(sr, sg, sb), ns, Vec3(tr, tg, tb), ior);
-        //    scene.materials.push_back(currMaterial);
-        //}
+            currMesh = ObjParse(currMesh, filename);
+        }
+        else if (strcmp(command, "material") == 0) { // If the command is a material
+            float ar, ag, ab; // ambient coefficients
+            float dr, dg, db; // diffuse coefficients
+            float sr, sg, sb; // specular coefficients
+
+            sscanf(line, "material %f %f %f %f %f %f %f %f %f\n",
+                &ar, &ag, &ab, &dr, &dg, &db, &sr, &sg, &sb);
+
+            currMaterial = Material(Vec3(ar, ag, ab), Vec3(dr, dg, db), Vec3(sr, sg, sb));
+        }
         else if (strcmp(command, "directional_light") == 0) { // If the command is a directional light
             float r, g, b, dx, dy, dz;
             sscanf(line, "directional_light %f %f %f %f %f %f",
@@ -181,6 +346,7 @@ static Map MapParse(Map& map, std::string fileName) {
     }
 
     int i = 0;
+    int width, height;
     //Loop through reading each line
     while (fgets(line, 1024, fp)) { //Assumes no line is longer than 1024 characters!
         if (line[0] == '#') {
@@ -191,55 +357,57 @@ static Map MapParse(Map& map, std::string fileName) {
         int fieldsRead; char row[100];
 
         // Bounds of grid
-        int width, height;
-        if ((fieldsRead = sscanf(line, "%d %d", &width, &height)) == 2) {
+        int temp_width, temp_height;
+        if ((fieldsRead = sscanf(line, "%d %d", &temp_width, &temp_height)) == 2) {
+            width = temp_width;
+            height = temp_height;
             map.Setup(width, height);
         }
         // Grid entries
         else if ((fieldsRead = sscanf(line, "%s", row)) == 1) {
             for (int j = 0; j < width; j++) {
-                switch (row[i]) {
+                switch (row[j]) {
                 case '0' :
-                    map.layout[map.index(i, j)] = empty;
+                    map.layout.push_back(empty);
                     break;
                 case 'W' :
-                    map.layout[map.index(i, j)] = wall;
+                    map.layout.push_back(wall);
                     break;
                 case 'S' :
-                    map.layout[map.index(i, j)] = start;
+                    map.layout.push_back(start);
                     break;
                 case 'G' :
-                    map.layout[map.index(i, j)] = goal;
+                    map.layout.push_back(goal);
                     break;
                 case 'A' :
-                    map.layout[map.index(i, j)] = door1;
+                    map.layout.push_back(door1);
                     break;
                 case 'B' :
-                    map.layout[map.index(i, j)] = door2;
+                    map.layout.push_back(door2);
                     break;
                 case 'C' :
-                    map.layout[map.index(i, j)] = door3;
+                    map.layout.push_back(door3);
                     break;
                 case 'D' :
-                    map.layout[map.index(i, j)] = door4;
+                    map.layout.push_back(door4);
                     break;
                 case 'E' :
-                    map.layout[map.index(i, j)] = door5;
+                    map.layout.push_back(door5);
                     break;
                 case 'a' :
-                    map.layout[map.index(i, j)] = key1;
+                    map.layout.push_back(key1);
                     break;
                 case 'b' :
-                    map.layout[map.index(i, j)] = key2;
+                    map.layout.push_back(key2);
                     break;
                 case 'c' :
-                    map.layout[map.index(i, j)] = key3;
+                    map.layout.push_back(key3);
                     break;
                 case 'd' :
-                    map.layout[map.index(i, j)] = key4;
+                    map.layout.push_back(key4);
                     break;
                 case 'e' :
-                    map.layout[map.index(i, j)] = key5;
+                    map.layout.push_back(key5);
                     break;
                 default:
                     break;
@@ -250,7 +418,6 @@ static Map MapParse(Map& map, std::string fileName) {
         else { continue; }
 
     }
-
     return map;
 }
 

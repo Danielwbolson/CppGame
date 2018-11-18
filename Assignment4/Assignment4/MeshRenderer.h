@@ -2,7 +2,11 @@
 #ifndef MESH_RENDERER_H_
 #define MESH_RENDERER_H_
 
-#include "glad/glad.h"  //Include order can matter here
+#define GLM_FORCE_RADIANS //ensure we are using radians
+#include "glad/glad.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 #include "Component.h"
 #include "Mesh.h"
@@ -23,7 +27,7 @@ public:
     MeshRenderer() {}
     MeshRenderer(const Mesh&, const Material&);
 
-    void Render();
+    void Render(const glm::mat4&, const glm::mat4&, const glm::mat4&);
 
     GLuint VAO() { return vao; }
     GLuint Positions() { return vbo[0]; }

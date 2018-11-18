@@ -15,17 +15,18 @@ class Light;
 
 class Scene {
 public:
-    int width;
-    int height;
+    int window_width;
+    int window_height;
 
-    Camera camera;
+    Camera* cam;
     std::vector<GameObject*> gameObjects;
     std::vector<Light*> lights;
     Vec3 background;
-    std::string image_path;
 
     Scene();
     ~Scene();
+    GameObject* FindGameObject(const std::string&);
+    void SetupCamera();
 
     void Update(const float dt);
     void CollisionChecks();

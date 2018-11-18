@@ -21,6 +21,7 @@ public:
     GameObject* gameObject;
     std::string name;
 
+    Component() {}
     ~Component() { delete gameObject; }
 
     // Returns camelCase name of components

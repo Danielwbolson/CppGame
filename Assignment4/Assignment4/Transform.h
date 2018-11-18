@@ -5,7 +5,7 @@
 #include "Vec3.h"
 #include "Component.h"
 
-class Transform : Component {
+class Transform : public Component {
 
 private:
 

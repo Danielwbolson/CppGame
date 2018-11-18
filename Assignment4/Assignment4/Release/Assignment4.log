@@ -1,0 +1,29 @@
+﻿  AmbientLight.cpp
+  Assignment4.cpp
+c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\corecrt_math_defines.h(22): warning C4005: 'M_PI': macro redefinition
+  d:\sdl2-2.0.8\include\sdl_stdinc.h(499): note: see previous definition of 'M_PI'
+  BoxCollider.cpp
+  Camera.cpp
+d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\camera.cpp(12): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  DirectionalLight.cpp
+  GameObject.cpp
+  Light.cpp
+  Map.cpp
+  Material.cpp
+  Mesh.cpp
+  MeshRenderer.cpp
+  PlayerMovement.cpp
+  PointLight.cpp
+  Scene.cpp
+d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\scene.cpp(19): warning C4018: '<': signed/unsigned mismatch
+d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\scene.cpp(29): warning C4018: '<': signed/unsigned mismatch
+  SphereCollider.cpp
+  SpotLight.cpp
+  Transform.cpp
+  Vec2.cpp
+d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\vec2.cpp(79): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  Vec3.cpp
+  Generating code
+  All 571 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Assignment4.vcxproj -> D:\Daniel Olson\Desktop\Fall2018\CSCI5607\Assignment4\Assignment4\Release\Assignment4.exe

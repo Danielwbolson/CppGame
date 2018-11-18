@@ -3,25 +3,22 @@
 
 Material::Material() {}
 
-Material::Material(Vec3 a, Vec3 d, Vec3 s, float e, Vec3 t, float i) {
+    Material::Material(const Vec3& a, const Vec3& d, const Vec3& s) {
     this->c_ambient = a;
     this->c_diffuse = d;
     this->c_specular = s;
-    this->exponent = e;
-    this->c_transmissive = t;
-    this->index_of_refraction = i;
 
     /* * * SETUP SHADER * * */
 
     // Vert and frag shaders, compiled from file
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    const std::string vertString = util::fileToString("Phong.vert");
+    vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    const std::string vertString = util::fileToString("./Phong.vert");
     const GLchar* vertexSource = vertString.c_str();
     glShaderSource(vertexShader, 1, &vertexSource, NULL);
     util::loadShader(vertexShader, vertexSource);
 
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    const std::string fragString = util::fileToString("Phong.frag");
+    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    const std::string fragString = util::fileToString("./Phong.frag");
     const GLchar* fragmentSource = fragString.c_str();
     glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
     util::loadShader(fragmentShader, fragmentSource);
@@ -36,13 +33,22 @@ Material::Material(Vec3 a, Vec3 d, Vec3 s, float e, Vec3 t, float i) {
     /* * * FINISHED SHADER SETUP * * */
 }
 
+Material::~Material() {
+    if (glIsProgram(shaderProgram)) {
+        glDeleteProgram(shaderProgram);
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
+    }
+}
+
 Material Material::operator=(const Material& m) {
     if (this == &m) return *this;
 
     this->c_ambient = m.Ambient();
     this->c_diffuse = m.Diffuse();
     this->c_specular = m.Specular();
-    this->exponent = m.Exponent();
-    this->c_transmissive = m.Transmissive();
-    this->index_of_refraction = m.IofR();
+
+    this->fragmentShader = m.fragmentShader;
+    this->vertexShader = m.vertexShader;
+    this->shaderProgram = m.shaderProgram;
 }

@@ -2,6 +2,12 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
+#define GLM_FORCE_RADIANS //ensure we are using radians
+#include "glad/glad.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 #include "Vec3.h"
 #include "Component.h"
 
@@ -13,20 +19,22 @@ private:
 
 public:
     Camera();
-    Camera(Vec3, Vec3, Vec3, float);
-    void Setup(int w, int h);
+    Camera(const Vec3&, const Vec3&, const Vec3&, 
+        const int&, const int&, const float&, const float&, const float&);
+    void Update(const float&);
+    void UpdateView(const float&, const float&);
 
     Camera operator=(const Camera&);
 
-    Vec3 position;
-    Vec3 direction;
-    Vec3 up, right;
+    glm::mat4 view;
+    glm::mat4 proj;
 
-    Vec3 topLeft;
+    glm::vec3 position;
+    glm::vec3 lookAt;
+    glm::vec3 up;
 
-    float vert_halfAngle;
-    float halfHeight, halfWidth;
-    float pixel_width;
+    float fov, aspect_ratio;
+    float near_plane, far_plane;
 };
 
 #endif
