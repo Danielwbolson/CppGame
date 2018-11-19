@@ -108,7 +108,7 @@ static Mesh ObjParse(Mesh& mesh, const std::string fileName) {
             Vec3 n;
 
             sscanf(line, "vn %f %f %f", &n.x, &n.y, &n.z);
-            rawNormals.push_back(n);
+            rawNormals.push_back(n.Normalize());
         }
         // face
         else if (strcmp(command, "f") == 0) {

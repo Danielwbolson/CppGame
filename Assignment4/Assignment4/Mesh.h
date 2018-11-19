@@ -13,12 +13,12 @@ private:
     int numNormals;
     int numIndices;
 
+public:
     std::vector<Vec3> pos;
     std::vector<Vec3> normals;
     std::vector<Vec2> uvs;
     std::vector<unsigned short> indices;
 
-public:
     Mesh();
     Mesh(std::vector<Vec3>, std::vector<Vec3>, std::vector<Vec2>, std::vector<unsigned short>);
 

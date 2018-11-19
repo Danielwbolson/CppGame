@@ -11,16 +11,11 @@ class Material {
 
 private:
     Vec3 c_ambient, c_diffuse, c_specular;
-    GLuint vertexShader, fragmentShader;
 
 public:
-    GLuint shaderProgram;
 
     Material();
     Material(const Vec3&, const Vec3&, const Vec3&);
-    ~Material();
-
-    GLuint Shader() const { return shaderProgram; }
 
     Vec3 Ambient() const { return c_ambient; }
     Vec3 Diffuse() const { return c_diffuse; }

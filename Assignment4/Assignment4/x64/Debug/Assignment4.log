@@ -4,13 +4,4 @@ c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\corecrt_math_de
 d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(39): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  GameObject.cpp
-d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(39): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  MeshRenderer.cpp
-d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(39): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  Generating Code...
   Assignment4.vcxproj -> D:\Daniel Olson\Desktop\Fall2018\CSCI5607\Assignment4\Assignment4\x64\Debug\Assignment4.exe

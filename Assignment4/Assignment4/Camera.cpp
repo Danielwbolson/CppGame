@@ -15,19 +15,13 @@ Camera::Camera(const Vec3& pos, const Vec3& lookat, const Vec3& u,
     far_plane = fp;
     aspect_ratio = w / (float)h;
 
-    view = glm::lookAt(
-        glm::vec3(position.x, position.y, position.z),   //Cam Position
-        glm::vec3(-lookAt.x, -lookAt.y, lookAt.z),  //Look at point
-        glm::vec3(up.x, up.y, up.z));
+    view = glm::lookAt(position, lookAt, up);
 
     proj = glm::perspective(fov, aspect_ratio, near_plane, far_plane);
 }
 
 void Camera::Update(const float& dt) {
-    view = glm::lookAt(
-        position,   //Cam Position
-        lookAt,  //Look at point
-        up); // Up vector
+    view = glm::lookAt(position, lookAt, up);
 }
 
 void Camera::UpdateView(const float& f, const float& r) {

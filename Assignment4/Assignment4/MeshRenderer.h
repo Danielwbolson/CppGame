@@ -15,10 +15,12 @@
 class MeshRenderer : public Component {
 
 private:
-
     // 0 : position, 1 : normals, 2 : uvs, 3 : indices
     GLuint vbo[4];
     GLuint vao;
+
+    GLuint vertexShader, fragmentShader;
+    GLuint shaderProgram;
 
     Mesh mesh;
     Material material;
