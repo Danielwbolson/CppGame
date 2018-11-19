@@ -1,1 +1,25 @@
-﻿  Assignment4.vcxproj -> D:\Daniel Olson\Desktop\Fall2018\CSCI5607\Assignment4\Assignment4\Debug\Assignment4.exe
+﻿  AmbientLight.cpp
+  Assignment4.cpp
+c:\users\daniel\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\assignment4.cpp(9): fatal error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  BoxCollider.cpp
+  Camera.cpp
+  DirectionalLight.cpp
+  GameObject.cpp
+  Light.cpp
+  Map.cpp
+  Material.cpp
+  Mesh.cpp
+  MeshRenderer.cpp
+  PlayerMovement.cpp
+  PointLight.cpp
+  Scene.cpp
+c:\users\daniel\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\scene.cpp(32): warning C4018: '<': signed/unsigned mismatch
+c:\users\daniel\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\scene.cpp(42): warning C4018: '<': signed/unsigned mismatch
+  SphereCollider.cpp
+  SpotLight.cpp
+  Transform.cpp
+  Vec2.cpp
+c:\users\daniel\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\vec2.cpp(79): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  Vec3.cpp
+  Generating Code...
+c:\users\daniel\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\material.cpp(18): warning C4715: 'Material::operator=': not all control paths return a value

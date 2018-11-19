@@ -6,7 +6,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <map>
 
 #include "Scene.h"
 #include "Map.h"
