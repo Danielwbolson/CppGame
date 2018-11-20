@@ -3,17 +3,16 @@
 #define COLLIDER_H_
 
 #include "Component.h"
+#include "Transform.h"
 
 class Collider : public Component {
-
-protected:
+public:
     Vec3 position;
     bool dynamic;
 
-public:
-    virtual void CollisionDetect(const Collider&) const = 0;
-    virtual bool IsColliding(const Collider&) const = 0;
-    virtual float MaxBounds() const = 0;
+    virtual bool CollisionDetect(const Collider&, const float&, const float&) const = 0;
+    virtual void Update(const float&) = 0;
+    virtual float MaxBoundsInDir(const Vec3&) const = 0;
 };
 
 #endif

@@ -28,6 +28,7 @@ public:
     std::string ComponentType() const { return componentType; }
 
     virtual void Update(const float&) {}
+    virtual Component* clone() const = 0;
 
 };
 #endif 

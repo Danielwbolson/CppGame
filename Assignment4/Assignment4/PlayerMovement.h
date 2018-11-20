@@ -7,9 +7,14 @@
 class PlayerMovement : public Component {
 
 private:
+    float speed;
+    float forward, right;
 
 public:
     PlayerMovement();
+    PlayerMovement(const float&);
+    PlayerMovement* clone() const;
+
     void Update(const float&);
 
 };

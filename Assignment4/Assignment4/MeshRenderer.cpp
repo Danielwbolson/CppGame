@@ -66,6 +66,10 @@ MeshRenderer::MeshRenderer(const Mesh& m, const Material& mat) {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.NumIndices() * sizeof(GL_UNSIGNED_SHORT), &(mesh.indices[0]), GL_STATIC_DRAW);
 }
 
+MeshRenderer* MeshRenderer::clone() const {
+    return new MeshRenderer(*this);
+}
+
 void MeshRenderer::Render(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p) {
 
     GLint uniModel = glGetUniformLocation(shaderProgram, "model");

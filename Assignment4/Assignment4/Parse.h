@@ -243,17 +243,15 @@ static Scene SceneParse(Scene& scene, std::string fileName) {
                     currGameObject->AddComponent(new SphereCollider(pos, radius, dynamic));
             }
             else if (strcmp(type, "camera") == 0) {
-                float px, py, pz;
                 float lax, lay, laz;
                 float ux, uy, uz;
                 float fov, np, fp;
 
-                sscanf(line, "component camera %f %f %f %f %f %f %f %f %f %f %f %f",
-                    &px, &py, &pz, &lax, &lay, &laz, &ux, &uy, &uz, &fov, &np, &fp);
+                sscanf(line, "component camera %f %f %f %f %f %f %f %f %f",
+                    &lax, &lay, &laz, &ux, &uy, &uz, &fov, &np, &fp);
 
                 if (currGameObject) {
                     currGameObject->AddComponent(new Camera(
-                        Vec3(px, py, pz),
                         Vec3(lax, lay, laz),
                         Vec3(ux, uy, uz).Normalize(),
                         window_width,
@@ -332,7 +330,7 @@ static Scene SceneParse(Scene& scene, std::string fileName) {
     return scene;
 }
 
-static Map MapParse(Map& map, std::string fileName) {
+static Map MapParse(Map& map, std::string fileName, Scene* s) {
     FILE *fp;
     char line[1024]; //Assumes no line is longer than 1024 characters!
 
@@ -416,6 +414,85 @@ static Map MapParse(Map& map, std::string fileName) {
         }
         else { continue; }
 
+    }
+
+    s->instances.reserve(map.layout.size());
+    // Create actual grid
+    for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
+            bool flag = true;
+            GameObject* g = new GameObject();
+            Transform* t = new Transform();
+            switch (map.layout[map.index(i, j)]) {
+            case empty:
+                flag = false;
+                break;
+            case wall: {
+                g = new GameObject(*(s->FindGameObject("wall")));
+                break;
+            }
+            case start: {
+                g = new GameObject(*(s->FindGameObject("player")));
+                break;
+            }
+            case goal: {
+                flag = false;
+                break;
+            }
+            case door1: {
+                g = new GameObject(*(s->FindGameObject("door1")));
+                break;
+            }
+            case door2: {
+                g = new GameObject(*(s->FindGameObject("door2")));
+                break;
+            }
+            case door3: {
+                g = new GameObject(*(s->FindGameObject("door3")));
+                break;
+            }
+            case door4: {
+                g = new GameObject(*(s->FindGameObject("door4")));
+                break;
+            }
+            case door5: {
+                g = new GameObject(*(s->FindGameObject("door5")));
+                break;
+            }
+            case key1: {
+                g = new GameObject(*(s->FindGameObject("key1")));
+                break;
+            }
+            case key2: {
+                g = new GameObject(*(s->FindGameObject("key2")));
+                break;
+            }
+            case key3: {
+                g = new GameObject(*(s->FindGameObject("key3")));
+                break;
+            }
+            case key4: {
+                g = new GameObject(*(s->FindGameObject("key4")));
+                break;
+            }
+            case key5: {
+                g = new GameObject(*(s->FindGameObject("key5")));
+                break;
+            }
+            default:
+                flag = false;
+                break;
+            }
+
+            if (flag) {
+                t = g->GetTransform();
+                t->position = glm::vec3((float)s->cube_width * j, 0, (float)s->cube_width * i);
+                for (int i = 0; i < g->components.size(); i++) {
+                    g->components[i]->gameObject = g;
+                }
+                s->instances.push_back(g);
+            }
+        }
     }
     return map;
 }

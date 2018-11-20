@@ -1,6 +1,8 @@
 
 #include "GameObject.h"
 #include "Component.h"
+#include "Collider.h"
+#include "Transform.h"
 #include "MeshRenderer.h"
 #include <algorithm>
 
@@ -13,6 +15,36 @@ GameObject::~GameObject() {
     components.empty();
 }
 
+GameObject::GameObject(const GameObject& rhs) {
+    this->name = rhs.name;
+
+    components.clear();
+    components.empty();
+    components = std::vector<Component*>();
+
+    for (auto& element : rhs.components) {
+        components.push_back(element->clone());
+    }
+
+    this->model = rhs.model;
+}
+
+GameObject& GameObject::operator=(const GameObject& rhs) {
+    if (this == &rhs) return *this;
+    this->name = rhs.name;
+
+    components.clear();
+    components.empty();
+    components = std::vector<Component*>();
+    for (auto& element : rhs.components) {
+        components.push_back(element->clone());
+    }
+
+    this->model = rhs.model;
+
+    return *this;
+}
+
 void GameObject::Update(const float& dt) {
     for (int i = 0; i < (int)components.size(); i++) {
         components[i]->Update(dt);
@@ -20,6 +52,9 @@ void GameObject::Update(const float& dt) {
 }
 
 void GameObject::Render(const glm::mat4& v, const glm::mat4& p) {
+    model = glm::mat4();
+    model = glm::translate(model, GetTransform()->position);
+
     MeshRenderer* m = (MeshRenderer*)GetComponent("meshRenderer");
     if (m) {
         m->Render(model, v, p);
@@ -41,3 +76,8 @@ Component* GameObject::GetComponent(std::string componentType) {
     else
         return nullptr;
 }
+
+Transform* GameObject::GetTransform() {
+    return &(*(Transform*)GetComponent("transform"));
+}
+

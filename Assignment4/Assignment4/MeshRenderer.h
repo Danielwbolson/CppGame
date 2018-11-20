@@ -28,6 +28,7 @@ private:
 public:
     MeshRenderer() {}
     MeshRenderer(const Mesh&, const Material&);
+    MeshRenderer* clone() const;
 
     void Render(const glm::mat4&, const glm::mat4&, const glm::mat4&);
 

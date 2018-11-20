@@ -10,6 +10,7 @@
 
 #include "Vec3.h"
 #include "Component.h"
+#include "Transform.h"
 
 #include <stdio.h>
 
@@ -19,17 +20,19 @@ private:
 
 public:
     Camera();
-    Camera(const Vec3&, const Vec3&, const Vec3&, 
+    Camera(const Vec3&, const Vec3&, 
         const int&, const int&, const float&, const float&, const float&);
+    Camera* clone() const;
+
     void Update(const float&);
     void UpdateView(const float&, const float&);
+    void ConnectTransform();
 
     Camera operator=(const Camera&);
 
     glm::mat4 view;
     glm::mat4 proj;
 
-    glm::vec3 position;
     glm::vec3 lookAt;
     glm::vec3 up;
 

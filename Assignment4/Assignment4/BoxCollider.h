@@ -12,15 +12,17 @@ private:
 public:
     BoxCollider() {}
     BoxCollider(const Vec3&, const float&, const float&, const bool&);
+    BoxCollider* clone() const;
 
-    void CollisionDetect(const Collider&) const;
-    bool IsColliding(const Collider&) const;
-    float MaxBounds() const { return fmax(width, height); }
+    BoxCollider(const BoxCollider&);
+    BoxCollider operator=(const BoxCollider&);
+
+    void Update(const float&);
+    float MaxBoundsInDir(const Vec3&) const;
+    bool CollisionDetect(const Collider&, const float&, const float&) const;
 
     float Width() const { return width; }
     float Height() const { return height; }
-    bool Dynamic() const { return dynamic; }
-    Vec3 Position() const { return position; }
 };
 
 #endif

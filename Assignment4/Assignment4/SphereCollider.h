@@ -12,9 +12,11 @@ private:
 public:
     SphereCollider() {}
     SphereCollider(const Vec3&, const float&, const bool&);
+    SphereCollider* clone() const;
 
-    void CollisionDetect(const Collider&) const;
-    bool IsColliding(const Collider&) const;
+    void Update(const float&);
+    float MaxBoundsInDir(const Vec3&) const;
+    bool CollisionDetect(const Collider&, const float&, const float&) const;
     float MaxBounds() const { return radius; }
 
     float Radius() const { return radius; }
