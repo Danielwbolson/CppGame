@@ -489,7 +489,7 @@ static Map MapParse(Map& map, std::string fileName, Scene* s) {
 
             if (flag) {
                 t = g->GetTransform();
-                t->position = glm::vec3((float)s->cube_width * j, 0, (float)s->cube_width * i);
+                t->SetPosition(glm::vec3((float)s->cube_width * j, 0, (float)s->cube_width * i));
                 for (int i = 0; i < g->components.size(); i++) {
                     g->components[i]->gameObject = g;
                 }

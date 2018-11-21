@@ -26,6 +26,11 @@ public:
     void UpdateVelocity(const float&, const float&);
     void Update(const float&);
 
+    void SetPosition(const glm::vec3& p) { 
+        position = p;
+        model = glm::translate(model, position);
+    }
+
     glm::mat4 model;
 
     glm::vec3 position;

@@ -19,5 +19,5 @@ void PlayerMovement::SDLInput(const Uint8* k, const float& xRel, const float& yR
     right = speed * (k[SDL_SCANCODE_D] - k[SDL_SCANCODE_A]);
     gameObject->GetTransform()->UpdateVelocity(forward, right);
 
-    gameObject->GetTransform()->rotation += glm::vec3(xRel, yRel, 0);
+    gameObject->GetTransform()->rotation = glm::vec3(xRel, yRel, 0);
 }

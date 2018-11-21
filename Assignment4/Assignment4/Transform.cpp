@@ -62,12 +62,11 @@ void Transform::UpdateVelocity(const float& f, const float& r) {
 void Transform::Update(const float& dt) {
     position += velocity * dt;
 
-    model = glm::mat4(1.0f);
-    model = glm::translate(model, position);
-    model = glm::rotate(model, -rotation.x, glm::vec3(0, 1, 0));
-    model = glm::rotate(model, rotation.y, right);
+    model = glm::translate(model, velocity * dt);
+    model = glm::rotate(model, glm::clamp(-rotation.x, (float)(-M_PI / 2.0 * 0.9), (float)(M_PI / 2.0f * 0.9f)), glm::vec3(0, 1, 0));
+    model = glm::rotate(model, glm::clamp(-rotation.y, (float)(-M_PI / 2.0 * 0.9), (float)(M_PI / 2.0f * 0.9f)), glm::vec3(1, 0, 0));
 
-    forward = glm::vec3(model[2]);
+    forward = -glm::vec3(model[2]);
     up = glm::vec3(model[1]);
     right = glm::vec3(model[0]);
 }

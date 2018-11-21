@@ -23,7 +23,7 @@ Camera* Camera::clone() const {
 
 void Camera::Update(const float& dt) {
     Transform* t = gameObject->GetTransform();
-    view = glm::lookAt(t->position, t->position + t->forward, t->up);
+    view = glm::lookAt(t->position, t->position + t->forward, up);
 }
 
 Camera Camera::operator=(const Camera& c) {
