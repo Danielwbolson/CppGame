@@ -16,7 +16,7 @@ public:
     PlayerMovement(const float&);
     PlayerMovement* clone() const;
 
-    void SDLInput(const Uint8*);
+    void SDLInput(const Uint8*, const float&, const float&);
 };
 
 #endif

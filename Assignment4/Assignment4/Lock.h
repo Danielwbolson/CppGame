@@ -3,6 +3,7 @@
 #define LOCK_H_
 
 #include "Component.h"
+#include "Transform.h"
 
 class Lock : public Component {
 
@@ -12,6 +13,9 @@ private:
 public:
     Lock() {}
     Lock(const std::string&);
+
+    void UnLock(const std::string&);
+    std::string GetKey() const { return key; }
 
 };
 #endif

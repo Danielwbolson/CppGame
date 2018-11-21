@@ -21,14 +21,13 @@ class GameObject {
 public:
     std::vector<Component*> components;
     std::string name;
-    glm::mat4 model;
 
     GameObject();
     ~GameObject();
     GameObject(const GameObject&);
     GameObject& operator=(const GameObject&);
 
-    void SDLInput(const Uint8*);
+    void SDLInput(const Uint8*, const float&, const float&);
     void Update(const float&);
     void Render(const glm::mat4&, const glm::mat4&);
 

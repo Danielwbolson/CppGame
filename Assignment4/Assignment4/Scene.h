@@ -33,7 +33,7 @@ public:
     GameObject* FindInstance(const std::string&);
     Camera* GetCamera();
 
-    void SDLInput(const Uint8*);
+    void SDLInput(const Uint8*, const float&, const float&);
     void Update(const float dt);
     bool CollisionChecks(const float&) const;
     void Render();

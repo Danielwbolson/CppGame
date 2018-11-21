@@ -41,9 +41,9 @@ Camera* Scene::GetCamera() {
     return &(*(Camera*)FindInstance("player")->GetComponent("camera"));
 }
 
-void Scene::SDLInput(const Uint8* k) {
+void Scene::SDLInput(const Uint8* k, const float& xRel, const float& yRel) {
     for (int i = 0; i < instances.size(); i++) {
-        instances[i]->SDLInput(k);
+        instances[i]->SDLInput(k, xRel, yRel);
     }
 }
 void Scene::Update(const float dt) {

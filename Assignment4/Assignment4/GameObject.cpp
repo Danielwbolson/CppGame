@@ -6,9 +6,7 @@
 #include "MeshRenderer.h"
 #include <algorithm>
 
-GameObject::GameObject() {
-    model = glm::mat4();
-}
+GameObject::GameObject() {}
 
 GameObject::~GameObject() {
     components.clear();
@@ -17,7 +15,6 @@ GameObject::~GameObject() {
 
 GameObject::GameObject(const GameObject& rhs) {
     this->name = rhs.name;
-    this->model = rhs.model;
 
     components.clear();
     components.empty();
@@ -39,14 +36,12 @@ GameObject& GameObject::operator=(const GameObject& rhs) {
         components.push_back(element->clone());
     }
 
-    this->model = rhs.model;
-
     return *this;
 }
 
-void GameObject::SDLInput(const Uint8* k) {
+void GameObject::SDLInput(const Uint8* k, const float& xRel, const float& yRel) {
     for (int i = 0; i < (int)components.size(); i++) {
-        components[i]->SDLInput(k);
+        components[i]->SDLInput(k, xRel, yRel);
     }
 }
 
@@ -57,12 +52,9 @@ void GameObject::Update(const float& dt) {
 }
 
 void GameObject::Render(const glm::mat4& v, const glm::mat4& p) {
-    model = glm::mat4();
-    model = glm::translate(model, GetTransform()->position);
-
-    MeshRenderer* m = (MeshRenderer*)GetComponent("meshRenderer");
-    if (m) {
-        m->Render(model, v, p);
+    MeshRenderer* mr = (MeshRenderer*)GetComponent("meshRenderer");
+    if (mr) {
+        mr->Render(GetTransform()->model, v, p);
     }
 }
 

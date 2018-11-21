@@ -76,7 +76,7 @@ Vec2 Vec2::operator=(const Vec2& v) {
 // Vector Functions
 
 float Vec2::Length() const {
-    return sqrt(x * x + y * y);
+    return (float)sqrt(x * x + y * y);
 }
 
 double Vec2::Distance(const Vec2& v) const {

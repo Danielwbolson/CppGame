@@ -26,6 +26,8 @@ public:
     void UpdateVelocity(const float&, const float&);
     void Update(const float&);
 
+    glm::mat4 model;
+
     glm::vec3 position;
     glm::vec3 rotation;
     glm::vec3 scale;

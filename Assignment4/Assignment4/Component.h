@@ -29,7 +29,7 @@ public:
     // Returns camelCase name of components
     std::string ComponentType() const { return componentType; }
 
-    virtual void SDLInput(const Uint8*) {}
+    virtual void SDLInput(const Uint8*, const float&, const float&) {}
     virtual void Update(const float&) {}
     virtual Component* clone() const = 0;
 

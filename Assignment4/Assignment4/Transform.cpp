@@ -11,6 +11,8 @@ Transform::Transform() {
     forward = glm::vec3(0, 0, -1);
     right = glm::vec3(1, 0, 0);
     up = glm::vec3(0, 1, 0);
+
+    model = glm::mat4();
 }
 
 Transform::~Transform() {
@@ -31,6 +33,8 @@ Transform::Transform(const Transform& t) {
     this->right = t.right;
     this->up = t.up;
 
+    model = t.model;
+
     gameObject = t.gameObject;
 }
 
@@ -45,15 +49,25 @@ Transform& Transform::operator=(const Transform& t) {
     this->right = t.right;
     this->up = t.up;
 
+    model = t.model;
+
     gameObject = t.gameObject;
     return *this;
 }
 
 void Transform::UpdateVelocity(const float& f, const float& r) {
-    right = glm::cross(forward, up);
     velocity = glm::vec3(forward.x, 0, forward.z) * f + glm::vec3(right.x, 0, right.z) * r;
 }
 
 void Transform::Update(const float& dt) {
     position += velocity * dt;
+
+    model = glm::mat4(1.0f);
+    model = glm::translate(model, position);
+    model = glm::rotate(model, -rotation.x, glm::vec3(0, 1, 0));
+    model = glm::rotate(model, rotation.y, right);
+
+    forward = glm::vec3(model[2]);
+    up = glm::vec3(model[1]);
+    right = glm::vec3(model[0]);
 }
