@@ -17,6 +17,7 @@ GameObject::~GameObject() {
 
 GameObject::GameObject(const GameObject& rhs) {
     this->name = rhs.name;
+    this->model = rhs.model;
 
     components.clear();
     components.empty();
@@ -25,8 +26,6 @@ GameObject::GameObject(const GameObject& rhs) {
     for (auto& element : rhs.components) {
         components.push_back(element->clone());
     }
-
-    this->model = rhs.model;
 }
 
 GameObject& GameObject::operator=(const GameObject& rhs) {
@@ -43,6 +42,12 @@ GameObject& GameObject::operator=(const GameObject& rhs) {
     this->model = rhs.model;
 
     return *this;
+}
+
+void GameObject::SDLInput(const Uint8* k) {
+    for (int i = 0; i < (int)components.size(); i++) {
+        components[i]->SDLInput(k);
+    }
 }
 
 void GameObject::Update(const float& dt) {

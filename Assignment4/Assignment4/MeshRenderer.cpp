@@ -72,6 +72,9 @@ MeshRenderer* MeshRenderer::clone() const {
 
 void MeshRenderer::Render(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p) {
 
+    glBindVertexArray(vao);  //Bind the VAO for the shaders we are using
+    glUseProgram(shaderProgram);
+
     GLint uniModel = glGetUniformLocation(shaderProgram, "model");
     glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(m));
     GLint uniView = glGetUniformLocation(shaderProgram, "view");
@@ -83,7 +86,5 @@ void MeshRenderer::Render(const glm::mat4& m, const glm::mat4& v, const glm::mat
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
 
     // User our shader and draw our program
-    glUseProgram(shaderProgram);
-    glBindVertexArray(vao);  //Bind the VAO for the shaders we are using
     glDrawElements(GL_TRIANGLES, mesh.NumIndices() * sizeof(GL_UNSIGNED_SHORT), GL_UNSIGNED_SHORT, 0); //Number of vertices
 }

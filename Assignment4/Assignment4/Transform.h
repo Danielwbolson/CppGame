@@ -23,14 +23,16 @@ public:
     Transform(const Transform&);
     Transform& operator=(const Transform&);
 
+    void UpdateVelocity(const float&, const float&);
+    void Update(const float&);
+
     glm::vec3 position;
+    glm::vec3 rotation;
+    glm::vec3 scale;
 
     glm::vec3 forward;
     glm::vec3 right;
     glm::vec3 up;
-
-    glm::vec3 rotation;
-    glm::vec3 scale;
-
+    glm::vec3 velocity;
 };
 #endif

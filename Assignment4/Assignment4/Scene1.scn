@@ -1,3 +1,4 @@
+
 # Attempt at a sample scene
 aspect_ratio 800 600
 
@@ -6,15 +7,35 @@ gameObject wall
 # ambient, diffuse, specular
 material 1 1 1 1 1 1 0.2 0.2 0.2
 mesh meshes/wall.obj
-component transform 0 0 0
+component transform
 component meshRenderer
-component boxCollider 0 0 0 1 1 0
+# position, width, height, dynamic, trigger
+component boxCollider 0 0 0 1 1 0 0
 endGameObject
 
 # Player
 gameObject player
 component transform
-component boxCollider 0 0 0 0.2 0.2 1
-# position, lookat, up, fov, near_plane, far_plane
-component camera 0 0 -1 0 1 0 1.6 0.01 100
+component boxCollider 0 0 0 0.2 0.2 1 0
+# lookat, up, fov, near_plane, far_plane
+component camera 0 0 -1 0 1 0 1.2 0.01 100
+component playerMovement 2
 endGameObject 
+
+# Key1
+gameObject key1
+component transform
+material 1 1 1 1 1 1 0.2 0.2 0.2
+mesh meshes/key1.obj
+component meshRenderer
+component boxCollider 0 0 0 0.5 0.5 0 1
+endGameObject
+
+# Door1
+gameObject door1
+component transform
+material 1 1 1 1 1 1 0.2 0.2 0.2
+mesh meshes/door1.obj
+component meshRenderer
+component boxCollider 0 0 0 1 1 0 0
+endGameObject

@@ -11,7 +11,7 @@ private:
 
 public:
     BoxCollider() {}
-    BoxCollider(const Vec3&, const float&, const float&, const bool&);
+    BoxCollider(const Vec3&, const float&, const float&, const bool&, const bool&);
     BoxCollider* clone() const;
 
     BoxCollider(const BoxCollider&);
@@ -19,7 +19,7 @@ public:
 
     void Update(const float&);
     float MaxBoundsInDir(const Vec3&) const;
-    bool CollisionDetect(const Collider&, const float&, const float&) const;
+    bool CollisionDetect(const Collider&, const float&) const;
 
     float Width() const { return width; }
     float Height() const { return height; }

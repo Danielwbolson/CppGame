@@ -25,8 +25,8 @@ public:
     Camera* clone() const;
 
     void Update(const float&);
-    void UpdateView(const float&, const float&);
-    void ConnectTransform();
+    //void UpdateView(const float&, const float&);
+    //void ConnectTransform();
 
     Camera operator=(const Camera&);
 

@@ -8,6 +8,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
+#include "SDL.h"
+
 #include <vector>
 
 class Component;
@@ -26,6 +28,7 @@ public:
     GameObject(const GameObject&);
     GameObject& operator=(const GameObject&);
 
+    void SDLInput(const Uint8*);
     void Update(const float&);
     void Render(const glm::mat4&, const glm::mat4&);
 

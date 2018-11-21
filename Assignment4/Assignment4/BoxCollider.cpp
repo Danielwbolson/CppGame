@@ -1,13 +1,14 @@
 
 #include "BoxCollider.h"
 
-BoxCollider::BoxCollider(const Vec3& p, const float& w, const float& h, const bool& d = false) {
+BoxCollider::BoxCollider(const Vec3& p, const float& w, const float& h, const bool& d, const bool& t) {
     componentType = "collider";
 
     position = p;
     width = w;
     height = h;
     dynamic = d;
+    isTrigger = t;
 }
 
 BoxCollider::BoxCollider(const BoxCollider& rhs) {
@@ -16,6 +17,7 @@ BoxCollider::BoxCollider(const BoxCollider& rhs) {
     width = rhs.width;
     height = rhs.height;
     dynamic = rhs.dynamic;
+    isTrigger = rhs.isTrigger;
 
     this->gameObject = &(*rhs.gameObject);
 }
@@ -32,6 +34,7 @@ BoxCollider BoxCollider::operator=(const BoxCollider& rhs) {
     width = rhs.width;
     height = rhs.height;
     dynamic = rhs.dynamic;
+    isTrigger = rhs.isTrigger;
     this->gameObject = &(*rhs.gameObject);
 
     return *this;
@@ -48,12 +51,11 @@ float BoxCollider::MaxBoundsInDir(const Vec3& v) const {
     return sqrt(x*x + z*z);
 }
 
-bool BoxCollider::CollisionDetect(const Collider& c, const float& forward, const float& right) const {
+bool BoxCollider::CollisionDetect(const Collider& c, const float& dt) const {
     Transform* t = gameObject->GetTransform();
-    glm::vec3 f = t->forward * forward;
-    glm::vec3 r = t->right * right;
+    glm::vec3 v = t->velocity * dt;
 
-    Vec3 vec = c.position - (position + Vec3(f.x, f.y, f.z) + Vec3(r.x, r.y, r.z));
+    Vec3 vec = c.position - (position + 3 * Vec3(v.x, v.y, v.z));
     float minDist = MaxBoundsInDir(vec.Normalize()) + c.MaxBoundsInDir(-vec.Normalize());
     float diff = minDist - vec.Length();
 

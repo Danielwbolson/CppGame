@@ -7,6 +7,10 @@ Transform::Transform() {
     position = glm::vec3(0, 0, 0);
     rotation = glm::vec3(0, 0, 0);
     scale = glm::vec3(1, 1, 1);
+
+    forward = glm::vec3(0, 0, -1);
+    right = glm::vec3(1, 0, 0);
+    up = glm::vec3(0, 1, 0);
 }
 
 Transform::~Transform() {
@@ -43,4 +47,13 @@ Transform& Transform::operator=(const Transform& t) {
 
     gameObject = t.gameObject;
     return *this;
+}
+
+void Transform::UpdateVelocity(const float& f, const float& r) {
+    right = glm::cross(forward, up);
+    velocity = glm::vec3(forward.x, 0, forward.z) * f + glm::vec3(right.x, 0, right.z) * r;
+}
+
+void Transform::Update(const float& dt) {
+    position += velocity * dt;
 }

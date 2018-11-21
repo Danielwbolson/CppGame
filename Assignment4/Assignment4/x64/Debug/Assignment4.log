@@ -1,17 +1,1 @@
-﻿  Assignment4.cpp
-c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\corecrt_math_defines.h(22): warning C4005: 'M_PI': macro redefinition
-  d:\sdl2-2.0.8\include\sdl_stdinc.h(499): note: see previous definition of 'M_PI'
-d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(39): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  BoxCollider.cpp
-  Camera.cpp
-  GameObject.cpp
-d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-d:\daniel olson\desktop\fall2018\csci5607\assignment4\assignment4\assignment4\mesh.h(39): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  Scene.cpp
-  SphereCollider.cpp
-  Transform.cpp
-  Generating Code...
-  Assignment4.vcxproj -> D:\Daniel Olson\Desktop\Fall2018\CSCI5607\Assignment4\Assignment4\x64\Debug\Assignment4.exe
+﻿  Assignment4.vcxproj -> D:\Daniel Olson\Desktop\Fall2018\CSCI5607\Assignment4\Assignment4\x64\Debug\Assignment4.exe

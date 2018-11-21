@@ -1,12 +1,13 @@
 
 #include "SphereCollider.h"
 
-SphereCollider::SphereCollider(const Vec3& p, const float& r, const bool& d = false) {
+SphereCollider::SphereCollider(const Vec3& p, const float& r, const bool& d, const bool& t) {
     componentType = "collider";
 
     position = p;
     radius = r;
     dynamic = d;
+    isTrigger = t;
 }
 
 SphereCollider* SphereCollider::clone() const {
@@ -22,12 +23,11 @@ float SphereCollider::MaxBoundsInDir(const Vec3& v) const {
     return radius;
 }
 
-bool SphereCollider::CollisionDetect(const Collider& c, const float& forward, const float& right) const {
+bool SphereCollider::CollisionDetect(const Collider& c, const float& dt) const {
     Transform* t = gameObject->GetTransform();
-    glm::vec3 f = t->forward * forward;
-    glm::vec3 r = t->right * right;
+    glm::vec3 v = t->velocity * dt;
 
-    Vec3 vec = c.position - (position + Vec3(f.x, f.y, f.z) + Vec3(r.x, r.y, r.z));
+    Vec3 vec = c.position - (position + 3 * Vec3(v.x, v.y, v.z));
     float minDist = MaxBoundsInDir(vec.Normalize()) + c.MaxBoundsInDir(-vec.Normalize());
     float diff = minDist - vec.Length();
 

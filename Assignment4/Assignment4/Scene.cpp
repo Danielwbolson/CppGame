@@ -37,31 +37,41 @@ GameObject* Scene::FindInstance(const std::string& name) {
         return nullptr;
 }
 
-void Scene::SetupCamera() {
-    if (!cam) {
-        cam = (Camera*)FindInstance("player")->GetComponent("camera");
-        cam->gameObject = FindInstance("player");
-        cam->ConnectTransform();
-    }
+Camera* Scene::GetCamera() {
+    return &(*(Camera*)FindInstance("player")->GetComponent("camera"));
 }
 
+void Scene::SDLInput(const Uint8* k) {
+    for (int i = 0; i < instances.size(); i++) {
+        instances[i]->SDLInput(k);
+    }
+}
 void Scene::Update(const float dt) {
     for (int i = 0; i < instances.size(); i++) {
         instances[i]->Update(dt);
     }
 }
 
-bool Scene::CollisionChecks(const float& forward, const float& right) const {
+bool Scene::CollisionChecks(const float& dt) const {
     for (int i = 0; i < instances.size(); i++) {
-
         Collider* c = (Collider*)instances[i]->GetComponent("collider");
         if (c && c->dynamic) {
-            for (int j = 0; j < instances.size(); j++) {
 
+            for (int j = 0; j < instances.size(); j++) {
                 Collider* other = (Collider*)instances[j]->GetComponent("collider");
                 if (other && i != j) {
-                    if (c->CollisionDetect(*other, forward, right))
+
+                    if (c->CollisionDetect(*other, dt)) {
+                        if (!other->isTrigger) {
+                            c->gameObject->GetTransform()->velocity = glm::vec3(0, 0, 0);
+                        }
+                        c->colliding = true;
                         return true;
+                    }
+                    else {
+                        other->colliding = false;
+                    }
+
                 }
             }
         }
@@ -71,6 +81,6 @@ bool Scene::CollisionChecks(const float& forward, const float& right) const {
 
 void Scene::Render() {
     for (int i = 0; i < instances.size(); i++) {
-        instances[i]->Render(cam->view, cam->proj);
+        instances[i]->Render(GetCamera()->view, GetCamera()->proj);
     }
 }

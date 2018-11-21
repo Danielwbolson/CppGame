@@ -2,6 +2,8 @@
 #ifndef COMPONENT_H_
 #define COMPONENT_H_
 
+#include "SDL.h"
+
 #include "Vec3.h"
 #include "Vec2.h"
 #include "Utility.h"
@@ -27,6 +29,7 @@ public:
     // Returns camelCase name of components
     std::string ComponentType() const { return componentType; }
 
+    virtual void SDLInput(const Uint8*) {}
     virtual void Update(const float&) {}
     virtual Component* clone() const = 0;
 

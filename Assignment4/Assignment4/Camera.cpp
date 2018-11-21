@@ -22,22 +22,8 @@ Camera* Camera::clone() const {
 }
 
 void Camera::Update(const float& dt) {
-    view = glm::lookAt(gameObject->GetTransform()->position, lookAt, up);
-}
-
-void Camera::UpdateView(const float& f, const float& r) {
-    glm::vec3 temp_la = lookAt - gameObject->GetTransform()->position;
-
-    glm::vec3 forward = glm::normalize(temp_la);
-    glm::vec3 right = glm::normalize(glm::cross(forward, up));
-
-    gameObject->GetTransform()->position += forward * f + right * r;
-    lookAt = temp_la + gameObject->GetTransform()->position;
-}
-
-void Camera::ConnectTransform() {
-    lookAt = gameObject->GetTransform()->position + lookAt;
-    view = glm::lookAt(gameObject->GetTransform()->position, lookAt, up);
+    Transform* t = gameObject->GetTransform();
+    view = glm::lookAt(t->position, t->position + t->forward, t->up);
 }
 
 Camera Camera::operator=(const Camera& c) {

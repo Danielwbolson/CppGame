@@ -3,6 +3,7 @@
 #define PLAYER_MOVEMENT_H_
 
 #include "Component.h"
+#include "Transform.h"
 
 class PlayerMovement : public Component {
 
@@ -15,8 +16,7 @@ public:
     PlayerMovement(const float&);
     PlayerMovement* clone() const;
 
-    void Update(const float&);
-
+    void SDLInput(const Uint8*);
 };
 
 #endif

@@ -45,7 +45,7 @@ struct vertData {
     }
 };
 
-static Mesh ObjParse(Mesh& mesh, const std::string fileName) {
+static void ObjParse(Mesh& mesh, const std::string fileName) {
     FILE *fp;
     char line[1024]; //Assumes no line is longer than 1024 characters!
 
@@ -168,8 +168,6 @@ static Mesh ObjParse(Mesh& mesh, const std::string fileName) {
     uvs.empty();
     indices.clear();
     indices.empty();
-
-    return mesh;
 }
 
 static Scene SceneParse(Scene& scene, std::string fileName) {
@@ -225,22 +223,22 @@ static Scene SceneParse(Scene& scene, std::string fileName) {
             if (strcmp(type, "boxCollider") == 0) {
                 Vec3 pos;
                 float width, height;
-                int dynamic;
-                sscanf(line, "component boxCollider %f %f %f %f %f %d", 
-                    &pos.x, &pos.y, &pos.z, &width, &height, &dynamic);
+                int dynamic, isTrigger;
+                sscanf(line, "component boxCollider %f %f %f %f %f %d %d", 
+                    &pos.x, &pos.y, &pos.z, &width, &height, &dynamic, &isTrigger);
                 if (currGameObject)
-                    currGameObject->AddComponent(new BoxCollider(pos, width, height, dynamic));
+                    currGameObject->AddComponent(new BoxCollider(pos, width, height, dynamic, isTrigger));
             }
             else if (strcmp(type, "sphereCollider") == 0) {
                 Vec3 pos;
                 float radius;
-                int dynamic;
+                int dynamic, isTrigger;
 
-                sscanf(line, "component sphereCollider %f %f %f %f %d",
-                    &pos.x, &pos.y, &pos.z, &radius, &dynamic);
+                sscanf(line, "component sphereCollider %f %f %f %f %d %d",
+                    &pos.x, &pos.y, &pos.z, &radius, &dynamic, &isTrigger);
 
                 if (currGameObject)
-                    currGameObject->AddComponent(new SphereCollider(pos, radius, dynamic));
+                    currGameObject->AddComponent(new SphereCollider(pos, radius, dynamic, isTrigger));
             }
             else if (strcmp(type, "camera") == 0) {
                 float lax, lay, laz;
@@ -264,8 +262,12 @@ static Scene SceneParse(Scene& scene, std::string fileName) {
                     currGameObject->AddComponent(new MeshRenderer(currMesh, currMaterial));
             }
             else if (strcmp(type, "playerMovement") == 0) {
+                float speed;
+
+                sscanf(line, "component playerMovement %f", &speed);
+
                 if (currGameObject)
-                    currGameObject->AddComponent(new PlayerMovement());
+                    currGameObject->AddComponent(new PlayerMovement(speed));
             }
             else if (strcmp(type, "transform") == 0) {
                 if (currGameObject)
@@ -281,7 +283,8 @@ static Scene SceneParse(Scene& scene, std::string fileName) {
 
             sscanf(line, "mesh %s", &filename);
 
-            currMesh = ObjParse(currMesh, filename);
+            ObjParse(currMesh, filename);
+            currMesh.name = currGameObject->name;
         }
         else if (strcmp(command, "material") == 0) { // If the command is a material
             float ar, ag, ab; // ambient coefficients

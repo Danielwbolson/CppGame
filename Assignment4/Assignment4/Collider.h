@@ -9,8 +9,10 @@ class Collider : public Component {
 public:
     Vec3 position;
     bool dynamic;
+    bool isTrigger;
+    bool colliding;
 
-    virtual bool CollisionDetect(const Collider&, const float&, const float&) const = 0;
+    virtual bool CollisionDetect(const Collider&, const float&) const = 0;
     virtual void Update(const float&) = 0;
     virtual float MaxBoundsInDir(const Vec3&) const = 0;
 };

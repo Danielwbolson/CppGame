@@ -129,6 +129,9 @@
     <ClInclude Include="Mesh.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
+    <ClInclude Include="Lock.h">
+      <Filter>Header Files\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Assignment4.cpp">

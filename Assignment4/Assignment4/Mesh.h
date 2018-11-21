@@ -14,6 +14,8 @@ private:
     int numIndices;
 
 public:
+    std::string name;
+
     std::vector<Vec3> pos;
     std::vector<Vec3> normals;
     std::vector<Vec2> uvs;

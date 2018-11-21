@@ -2,6 +2,8 @@
 #ifndef SCENE_H_
 #define SCENE_H_
 
+#include <SDL.h>
+
 #include "Camera.h"
 #include "GameObject.h"
 #include "Material.h"
@@ -20,7 +22,6 @@ public:
     int window_height;
     int cube_width = 2;
 
-    Camera* cam;
     std::vector<GameObject*> gameObjects;
     std::vector<GameObject*> instances;
     std::vector<Light*> lights;
@@ -30,11 +31,11 @@ public:
     ~Scene();
     GameObject* FindGameObject(const std::string&);
     GameObject* FindInstance(const std::string&);
+    Camera* GetCamera();
 
-    void SetupCamera();
-
+    void SDLInput(const Uint8*);
     void Update(const float dt);
-    bool CollisionChecks(const float&, const float&) const;
+    bool CollisionChecks(const float&) const;
     void Render();
 };
 
