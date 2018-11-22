@@ -1,13 +1,12 @@
 
 #include "SphereCollider.h"
 
-SphereCollider::SphereCollider(const Vec3& p, const float& r, const bool& d, const bool& t) {
+SphereCollider::SphereCollider(const Vec3& p, const float& r, const bool& d) {
     componentType = "collider";
 
     position = p;
     radius = r;
     dynamic = d;
-    isTrigger = t;
 }
 
 SphereCollider* SphereCollider::clone() const {

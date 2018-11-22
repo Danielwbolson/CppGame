@@ -21,6 +21,7 @@ class GameObject {
 public:
     std::vector<Component*> components;
     std::string name;
+    bool dead = false;
 
     GameObject();
     ~GameObject();

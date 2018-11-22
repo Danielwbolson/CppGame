@@ -11,6 +11,10 @@ GameObject::GameObject() {}
 GameObject::~GameObject() {
     components.clear();
     components.empty();
+
+    for (std::vector<Component*>::iterator it = components.begin(); it != components.end(); it++) {
+        delete (*it);
+    }
 }
 
 GameObject::GameObject(const GameObject& rhs) {

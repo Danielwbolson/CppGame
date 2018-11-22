@@ -2,15 +2,23 @@
 # Attempt at a sample scene
 aspect_ratio 800 600
 
+# Floor
+gameObject floor
+material 0 0 0 1 1 1 1 1 1 0 0 0
+mesh meshes/floor.obj
+component transform
+component meshRenderer
+endGameObject
+
 # Wall
 gameObject wall
 # ambient, diffuse, specular
-material 1 1 1 1 1 1 0.2 0.2 0.2
+material .5 .5 .5 1 1 1 1 1 1 0.2 0.2 0.2
 mesh meshes/wall.obj
 component transform
 component meshRenderer
 # position, width, height, dynamic, trigger
-component boxCollider 0 0 0 1 1 0 0
+component boxCollider 0 0 0 1 1 0 
 endGameObject
 
 # Player
@@ -20,22 +28,110 @@ component boxCollider 0 0 0 0.2 0.2 1 0
 # lookat, up, fov, near_plane, far_plane
 component camera 0 0 -1 0 1 0 1.2 0.01 100
 component playerMovement 2
+component grab
 endGameObject 
 
 # Key1
 gameObject key1
 component transform
-material 1 1 1 1 1 1 0.2 0.2 0.2
+material 0 1 0 1 1 1 1 1 1 0.2 0.2 0.2
 mesh meshes/key1.obj
 component meshRenderer
-component boxCollider 0 0 0 0.5 0.5 0 1
+component key key1
+component interactableObject
+component boxCollider 0 0 0 1 1 0 
 endGameObject
 
 # Door1
 gameObject door1
 component transform
-material 1 1 1 1 1 1 0.2 0.2 0.2
+material 0 1 0 1 1 1 1 1 1 0.2 0.2 0.2
 mesh meshes/door1.obj
 component meshRenderer
-component boxCollider 0 0 0 1 1 0 0
+component door key1
+component boxCollider 0 0 0 1 1 0 
+endGameObject
+
+# Key2
+gameObject key2
+component transform
+material 1 0 0 1 1 1 1 1 1 0.2 0.2 0.2
+mesh meshes/key1.obj
+component meshRenderer
+component key key2
+component interactableObject
+component boxCollider 0 0 0 1 1 0 
+endGameObject
+
+# Door2
+gameObject door2
+component transform
+material 1 0 0 1 1 1 1 1 1 0.2 0.2 0.2
+mesh meshes/door1.obj
+component meshRenderer
+component door key2
+component boxCollider 0 0 0 1 1 0 
+endGameObject
+
+# Key3
+gameObject key3
+component transform
+material 0 0 1 1 1 1 1 1 1 0.2 0.2 0.2
+mesh meshes/key1.obj
+component meshRenderer
+component key key3
+component interactableObject
+component boxCollider 0 0 0 1 1 0 
+endGameObject
+
+# Door3
+gameObject door3
+component transform
+material 0 0 1 1 1 1 1 1 1 0.2 0.2 0.2
+mesh meshes/door1.obj
+component meshRenderer
+component door key3
+component boxCollider 0 0 0 1 1 0 
+endGameObject
+
+# Key4
+gameObject key4
+component transform
+material 0 1 1 1 1 1 1 1 1 0.2 0.2 0.2
+mesh meshes/key1.obj
+component meshRenderer
+component key key4
+component interactableObject
+component boxCollider 0 0 0 1 1 0 
+endGameObject
+
+# Door4
+gameObject door4
+component transform
+material 0 1 1 1 1 1 1 1 1 0.2 0.2 0.2
+mesh meshes/door1.obj
+component meshRenderer
+component door key4
+component boxCollider 0 0 0 1 1 0 
+endGameObject
+
+# Key5
+gameObject key5
+component transform
+material 1 1 0 1 1 1 1 1 1 0.2 0.2 0.2
+mesh meshes/key1.obj
+component meshRenderer
+component key key5
+component interactableObject
+component boxCollider 0 0 0 1 1 0 
+endGameObject
+
+# Door5
+gameObject door5
+component transform
+material 1 1 0 1 1 1 1 1 1 0.2 0.2 0.2
+mesh meshes/door1.obj
+component meshRender
+component door key5
+component boxCollider 0 0 0 1 1 0 
 endGameObject

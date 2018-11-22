@@ -55,6 +55,12 @@ Transform& Transform::operator=(const Transform& t) {
     return *this;
 }
 
+void Transform::UpdatePosition(const glm::vec3& v) {
+    model = glm::translate(model, -position);
+    position = v;
+    model = glm::translate(model, position);
+}
+
 void Transform::UpdateVelocity(const float& f, const float& r) {
     velocity = glm::vec3(forward.x, 0, forward.z) * f + glm::vec3(right.x, 0, right.z) * r;
 }

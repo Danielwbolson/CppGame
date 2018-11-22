@@ -172,9 +172,12 @@
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
+    <ClCompile Include="Door.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Grab.cpp" />
+    <ClCompile Include="InteractableObject.cpp" />
+    <ClCompile Include="Key.cpp" />
     <ClCompile Include="Light.cpp" />
-    <ClCompile Include="Lock.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -195,9 +198,12 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="Door.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Grab.h" />
+    <ClInclude Include="InteractableObject.h" />
+    <ClInclude Include="Key.h" />
     <ClInclude Include="Light.h" />
-    <ClInclude Include="Lock.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />

@@ -5,7 +5,7 @@ Mesh::Mesh() {
 
 }
 
-Mesh::Mesh(std::vector<Vec3> p, std::vector<Vec3> n, std::vector<Vec2> uv, std::vector<unsigned short> ind) {
+Mesh::Mesh(std::vector<Vec3> p, std::vector<Vec3> n, std::vector<Vec2> uv, std::vector<unsigned int> ind) {
     pos = p;
     normals = n;
     uvs = uv;

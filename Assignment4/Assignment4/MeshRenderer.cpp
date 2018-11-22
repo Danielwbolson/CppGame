@@ -63,7 +63,7 @@ MeshRenderer::MeshRenderer(const Mesh& m, const Material& mat) {
     // Indices
     glGenBuffers(1, &vbo[3]);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.NumIndices() * sizeof(GL_UNSIGNED_SHORT), &(mesh.indices[0]), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.NumIndices() * sizeof(GL_UNSIGNED_INT), &(mesh.indices[0]), GL_STATIC_DRAW);
 }
 
 MeshRenderer* MeshRenderer::clone() const {
@@ -75,6 +75,8 @@ void MeshRenderer::Render(const glm::mat4& m, const glm::mat4& v, const glm::mat
     glBindVertexArray(vao);  //Bind the VAO for the shaders we are using
     glUseProgram(shaderProgram);
 
+    GLint uniColor = glGetUniformLocation(shaderProgram, "inColor");
+    glUniform3f(uniColor, material.Color().x, material.Color().y, material.Color().z);
     GLint uniModel = glGetUniformLocation(shaderProgram, "model");
     glUniformMatrix4fv(uniModel, 1, GL_FALSE, glm::value_ptr(m));
     GLint uniView = glGetUniformLocation(shaderProgram, "view");
@@ -86,5 +88,5 @@ void MeshRenderer::Render(const glm::mat4& m, const glm::mat4& v, const glm::mat
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[3]);
 
     // User our shader and draw our program
-    glDrawElements(GL_TRIANGLES, mesh.NumIndices() * sizeof(GL_UNSIGNED_SHORT), GL_UNSIGNED_SHORT, 0); //Number of vertices
+    glDrawElements(GL_TRIANGLES, mesh.NumIndices() * sizeof(GL_UNSIGNED_INT), GL_UNSIGNED_INT, 0); //Number of vertices
 }

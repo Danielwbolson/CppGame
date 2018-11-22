@@ -2,10 +2,10 @@
 #version 150 core
 
 in vec3 position;
-const vec3 inColor = vec3(0.f,0.7f,0.f);
 in vec3 inNormal;
 in vec2 inUVs;
 const vec3 inLightDir = vec3(0,1,0);
+uniform vec3 inColor;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 proj;

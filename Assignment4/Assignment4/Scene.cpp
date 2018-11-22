@@ -48,35 +48,45 @@ void Scene::SDLInput(const Uint8* k, const float& xRel, const float& yRel) {
 }
 void Scene::Update(const float dt) {
     for (int i = 0; i < instances.size(); i++) {
+        if (instances[i]->dead) {
+            delete instances[i];
+            instances[i] = NULL;
+            instances.erase(instances.begin() + (i--));
+        }
         instances[i]->Update(dt);
     }
 }
 
-bool Scene::CollisionChecks(const float& dt) const {
+void Scene::CollisionChecks(const float& dt) const {
     for (int i = 0; i < instances.size(); i++) {
+        bool b = false;
         Collider* c = (Collider*)instances[i]->GetComponent("collider");
         if (c && c->dynamic) {
+            c->colliderObj = nullptr;
+            c->colliding = false;
 
             for (int j = 0; j < instances.size(); j++) {
                 Collider* other = (Collider*)instances[j]->GetComponent("collider");
-                if (other && i != j) {
+                if (other && i != j && !other->dynamic) {
+                    other->colliderObj = nullptr;
+                    other->colliding = false;
 
                     if (c->CollisionDetect(*other, dt)) {
-                        if (!other->isTrigger) {
-                            c->gameObject->GetTransform()->velocity = glm::vec3(0, 0, 0);
-                        }
+                        c->gameObject->GetTransform()->velocity = glm::vec3(0, 0, 0);
                         c->colliding = true;
-                        return true;
-                    }
-                    else {
-                        other->colliding = false;
-                    }
+                        other->colliding = true;
+                        c->colliderObj = other->gameObject;
+                        other->colliderObj = c->gameObject;
 
+                        b = true;
+                        break;
+                    }
                 }
             }
+            if (b)
+                break;
         }
     }
-    return false;
 }
 
 void Scene::Render() {

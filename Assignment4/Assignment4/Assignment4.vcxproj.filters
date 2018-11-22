@@ -28,9 +28,6 @@
     <Filter Include="Source Files\Component">
       <UniqueIdentifier>{83a966a0-a04b-4526-946b-1c11224e68e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Component\Collider">
-      <UniqueIdentifier>{5de98c01-7083-45d5-9b4c-6faff61f43ef}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Scenes">
       <UniqueIdentifier>{a30dc381-1cd6-4d19-9b26-d0d3a1d50b8d}</UniqueIdentifier>
     </Filter>
@@ -52,14 +49,29 @@
     <Filter Include="Header Files\Component">
       <UniqueIdentifier>{c4a8e61c-f48c-4e75-884f-426bcdfefd8c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Component\Colliders">
-      <UniqueIdentifier>{2cef7052-b2f9-44a8-8b6f-f0627461ba7a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Data">
       <UniqueIdentifier>{d35a418c-24a6-48af-a22c-44bc1099440a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Data">
       <UniqueIdentifier>{95b16827-c780-42ac-8feb-b869d7b5bdf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Component\Local">
+      <UniqueIdentifier>{cd87a02b-a999-4703-b5da-3620f316a68c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Component\Global">
+      <UniqueIdentifier>{9512a08e-5d13-4ce0-bfa4-fef347b1b3cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Component\Global\Colliders">
+      <UniqueIdentifier>{2cef7052-b2f9-44a8-8b6f-f0627461ba7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Component\Local">
+      <UniqueIdentifier>{2d1042ff-4210-4fd9-bb08-4990a197ef19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Component\Global">
+      <UniqueIdentifier>{d2d785ba-2adf-4dd8-8022-218be22f4a43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Component\Global\Collider">
+      <UniqueIdentifier>{5de98c01-7083-45d5-9b4c-6faff61f43ef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,35 +99,20 @@
     <ClInclude Include="Vec3.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Header Files\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Collider.h">
-      <Filter>Header Files\Component\Colliders</Filter>
+      <Filter>Header Files\Component\Global\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="BoxCollider.h">
-      <Filter>Header Files\Component\Colliders</Filter>
+      <Filter>Header Files\Component\Global\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="SphereCollider.h">
-      <Filter>Header Files\Component\Colliders</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header Files\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerMovement.h">
-      <Filter>Header Files\Component</Filter>
+      <Filter>Header Files\Component\Global\Colliders</Filter>
     </ClInclude>
     <ClInclude Include="Utility.h">
       <Filter>Header Files\Utility</Filter>
     </ClInclude>
     <ClInclude Include="Parse.h">
       <Filter>Header Files\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
-      <Filter>Header Files\Component</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Header Files\FileObjects</Filter>
@@ -129,8 +126,32 @@
     <ClInclude Include="Mesh.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
-    <ClInclude Include="Lock.h">
+    <ClInclude Include="PlayerMovement.h">
+      <Filter>Header Files\Component\Local</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Header Files\Component\Local</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>Header Files\Component\Local</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Component\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Header Files\Component\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files\Component\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
       <Filter>Header Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Grab.h">
+      <Filter>Header Files\Component\Local</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractableObject.h">
+      <Filter>Header Files\Component\Local</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,23 +182,11 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Source Files\Component</Filter>
-    </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
-      <Filter>Source Files\Component\Collider</Filter>
+      <Filter>Source Files\Component\Global\Collider</Filter>
     </ClCompile>
     <ClCompile Include="SphereCollider.cpp">
-      <Filter>Source Files\Component\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshRenderer.cpp">
-      <Filter>Source Files\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerMovement.cpp">
-      <Filter>Source Files\Component</Filter>
+      <Filter>Source Files\Component\Global\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\FileObjects</Filter>
@@ -191,8 +200,29 @@
     <ClCompile Include="Material.cpp">
       <Filter>Source Files\Data</Filter>
     </ClCompile>
-    <ClCompile Include="Lock.cpp">
-      <Filter>Source Files\Component</Filter>
+    <ClCompile Include="Door.cpp">
+      <Filter>Source Files\Component\Local</Filter>
+    </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>Source Files\Component\Local</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Component\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source Files\Component\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>Source Files\Component\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMovement.cpp">
+      <Filter>Source Files\Component\Local</Filter>
+    </ClCompile>
+    <ClCompile Include="Grab.cpp">
+      <Filter>Source Files\Component\Local</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractableObject.cpp">
+      <Filter>Source Files\Component\Local</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

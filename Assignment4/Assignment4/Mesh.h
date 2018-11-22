@@ -19,10 +19,10 @@ public:
     std::vector<Vec3> pos;
     std::vector<Vec3> normals;
     std::vector<Vec2> uvs;
-    std::vector<unsigned short> indices;
+    std::vector<unsigned int> indices;
 
     Mesh();
-    Mesh(std::vector<Vec3>, std::vector<Vec3>, std::vector<Vec2>, std::vector<unsigned short>);
+    Mesh(std::vector<Vec3>, std::vector<Vec3>, std::vector<Vec2>, std::vector<unsigned int>);
 
     std::string ComponentType() const { return "mesh"; }
 
@@ -33,12 +33,12 @@ public:
     std::vector<Vec3>* Pos() { return &pos; }
     std::vector<Vec3>* Normals() { return &normals; }
     std::vector<Vec2>* UVs() { return &uvs; }
-    std::vector<unsigned short>* Indices() { return &indices; }
+    std::vector<unsigned int>* Indices() { return &indices; }
 
-    void SetPositions(const std::vector<Vec3>& p) { pos = p; numPositions = pos.size(); }
-    void SetNormals(const std::vector<Vec3>& n) { normals = n; numNormals = normals.size(); }
-    void SetUvs(const std::vector<Vec2>& u) { uvs = u; }
-    void SetIndices(const std::vector<unsigned short>& ind) { indices = ind; numIndices = indices.size(); }
+    void SetPositions(const std::vector<Vec3>& p) { pos = std::vector<Vec3>(p.size()); pos = p; numPositions = pos.size(); }
+    void SetNormals(const std::vector<Vec3>& n) { normals = std::vector<Vec3>(n.size()); normals = n; numNormals = normals.size(); }
+    void SetUvs(const std::vector<Vec2>& u) { uvs = std::vector<Vec2>(u.size()); uvs = u; }
+    void SetIndices(const std::vector<unsigned int>& ind) { indices = std::vector<unsigned int>(ind.size()); indices = ind; numIndices = indices.size(); }
 
 };
 #endif

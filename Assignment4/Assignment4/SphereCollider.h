@@ -11,7 +11,7 @@ private:
 
 public:
     SphereCollider() {}
-    SphereCollider(const Vec3&, const float&, const bool&, const bool&);
+    SphereCollider(const Vec3&, const float&, const bool&);
     SphereCollider* clone() const;
 
     void Update(const float&);

@@ -11,7 +11,7 @@ private:
 
 public:
     BoxCollider() {}
-    BoxCollider(const Vec3&, const float&, const float&, const bool&, const bool&);
+    BoxCollider(const Vec3&, const float&, const float&, const bool&);
     BoxCollider* clone() const;
 
     BoxCollider(const BoxCollider&);

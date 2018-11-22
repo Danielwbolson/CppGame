@@ -10,6 +10,7 @@
 #include "Scene.h"
 #include "Map.h"
 
+// Global components
 #include "Component.h"
 #include "MeshRenderer.h"
 #include "Collider.h"
@@ -17,7 +18,13 @@
 #include "SphereCollider.h"
 #include "Transform.h"
 #include "Camera.h"
+
+// Local Components
 #include "PlayerMovement.h"
+#include "Key.h"
+#include "Door.h"
+#include "InteractableObject.h"
+#include "Grab.h"
 
 #include "Mesh.h"
 #include "GameObject.h"
@@ -64,7 +71,7 @@ static void ObjParse(Mesh& mesh, const std::string fileName) {
     std::vector<Vec3> verts;
     std::vector<Vec3> normals;
     std::vector<Vec2> uvs;
-    std::vector<unsigned short> indices;
+    std::vector<unsigned int> indices;
 
     std::vector<vertData> vertMap;
     int nextIndex = 0;
@@ -223,22 +230,22 @@ static Scene SceneParse(Scene& scene, std::string fileName) {
             if (strcmp(type, "boxCollider") == 0) {
                 Vec3 pos;
                 float width, height;
-                int dynamic, isTrigger;
-                sscanf(line, "component boxCollider %f %f %f %f %f %d %d", 
-                    &pos.x, &pos.y, &pos.z, &width, &height, &dynamic, &isTrigger);
+                int dynamic;
+                sscanf(line, "component boxCollider %f %f %f %f %f %d", 
+                    &pos.x, &pos.y, &pos.z, &width, &height, &dynamic);
                 if (currGameObject)
-                    currGameObject->AddComponent(new BoxCollider(pos, width, height, dynamic, isTrigger));
+                    currGameObject->AddComponent(new BoxCollider(pos, width, height, dynamic));
             }
             else if (strcmp(type, "sphereCollider") == 0) {
                 Vec3 pos;
                 float radius;
-                int dynamic, isTrigger;
+                int dynamic;
 
-                sscanf(line, "component sphereCollider %f %f %f %f %d %d",
-                    &pos.x, &pos.y, &pos.z, &radius, &dynamic, &isTrigger);
+                sscanf(line, "component sphereCollider %f %f %f %f %d",
+                    &pos.x, &pos.y, &pos.z, &radius, &dynamic);
 
                 if (currGameObject)
-                    currGameObject->AddComponent(new SphereCollider(pos, radius, dynamic, isTrigger));
+                    currGameObject->AddComponent(new SphereCollider(pos, radius, dynamic));
             }
             else if (strcmp(type, "camera") == 0) {
                 float lax, lay, laz;
@@ -273,6 +280,30 @@ static Scene SceneParse(Scene& scene, std::string fileName) {
                 if (currGameObject)
                     currGameObject->AddComponent(new Transform());
             }
+            else if (strcmp(type, "key") == 0) {
+                char p[1024];
+
+                sscanf(line, "component key %s", p);
+
+                if (currGameObject)
+                    currGameObject->AddComponent(new Key(p));
+            }
+            else if (strcmp(type, "door") == 0) {
+                char p[1024];
+
+                sscanf(line, "component door %s", p);
+
+                if (currGameObject)
+                    currGameObject->AddComponent(new Door(p));
+            }
+            else if (strcmp(type, "interactableObject") == 0) {
+                if (currGameObject)
+                    currGameObject->AddComponent(new InteractableObject());
+            }
+            else if (strcmp(type, "grab") == 0) {
+                if (currGameObject)
+                    currGameObject->AddComponent(new Grab());
+            }
             else { continue; }
         }
         else if (strcmp(command, "endGameObject") == 0) {
@@ -287,14 +318,15 @@ static Scene SceneParse(Scene& scene, std::string fileName) {
             currMesh.name = currGameObject->name;
         }
         else if (strcmp(command, "material") == 0) { // If the command is a material
+            float cr, cg, cb; // color
             float ar, ag, ab; // ambient coefficients
             float dr, dg, db; // diffuse coefficients
             float sr, sg, sb; // specular coefficients
 
-            sscanf(line, "material %f %f %f %f %f %f %f %f %f\n",
-                &ar, &ag, &ab, &dr, &dg, &db, &sr, &sg, &sb);
+            sscanf(line, "material %f %f %f %f %f %f %f %f %f %f %f %f\n",
+                &cr, &cg, &cb, &ar, &ag, &ab, &dr, &dg, &db, &sr, &sg, &sb);
 
-            currMaterial = Material(Vec3(ar, ag, ab), Vec3(dr, dg, db), Vec3(sr, sg, sb));
+            currMaterial = Material(Vec3(cr, cg, cb), Vec3(ar, ag, ab), Vec3(dr, dg, db), Vec3(sr, sg, sb));
         }
         else if (strcmp(command, "directional_light") == 0) { // If the command is a directional light
             float r, g, b, dx, dy, dz;
@@ -497,6 +529,15 @@ static Map MapParse(Map& map, std::string fileName, Scene* s) {
             }
         }
     }
+
+    GameObject* g = new GameObject(*(s->FindGameObject("floor")));
+    Transform* t = g->GetTransform();
+    t->SetPosition(glm::vec3(0, -1, 0));
+    for (int i = 0; i < g->components.size(); i++) {
+        g->components[i]->gameObject = g;
+    }
+    s->instances.push_back(g);
+
     return map;
 }
 

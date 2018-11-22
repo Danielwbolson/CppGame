@@ -1,14 +1,13 @@
 
 #include "BoxCollider.h"
 
-BoxCollider::BoxCollider(const Vec3& p, const float& w, const float& h, const bool& d, const bool& t) {
+BoxCollider::BoxCollider(const Vec3& p, const float& w, const float& h, const bool& d) {
     componentType = "collider";
 
     position = p;
     width = w;
     height = h;
     dynamic = d;
-    isTrigger = t;
 }
 
 BoxCollider::BoxCollider(const BoxCollider& rhs) {
@@ -17,7 +16,8 @@ BoxCollider::BoxCollider(const BoxCollider& rhs) {
     width = rhs.width;
     height = rhs.height;
     dynamic = rhs.dynamic;
-    isTrigger = rhs.isTrigger;
+
+    colliderObj = &(*rhs.gameObject);
 
     this->gameObject = &(*rhs.gameObject);
 }
@@ -34,8 +34,9 @@ BoxCollider BoxCollider::operator=(const BoxCollider& rhs) {
     width = rhs.width;
     height = rhs.height;
     dynamic = rhs.dynamic;
-    isTrigger = rhs.isTrigger;
     this->gameObject = &(*rhs.gameObject);
+
+    colliderObj = &(*rhs.gameObject);
 
     return *this;
 }

@@ -10,13 +10,15 @@
 class Material {
 
 private:
+    Vec3 color;
     Vec3 c_ambient, c_diffuse, c_specular;
 
 public:
 
     Material();
-    Material(const Vec3&, const Vec3&, const Vec3&);
+    Material(const Vec3&, const Vec3&, const Vec3&, const Vec3&);
 
+    Vec3 Color() const { return color; }
     Vec3 Ambient() const { return c_ambient; }
     Vec3 Diffuse() const { return c_diffuse; }
     Vec3 Specular() const { return c_specular; }
