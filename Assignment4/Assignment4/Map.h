@@ -19,7 +19,7 @@ public:
     std::vector<int> layout;
 
     Map();
-    int index(const int& i, const int& j) { return i * height + j; }
+    int index(const int& i, const int& j) { return i * width + j; }
     void Setup(const int&, const int&);
 
 };

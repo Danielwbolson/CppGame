@@ -8,7 +8,7 @@ Transform::Transform() {
     rotation = glm::vec3(0, 0, 0);
     scale = glm::vec3(1, 1, 1);
 
-    forward = glm::vec3(0, 0, -1);
+    forward = glm::vec3(0, 0, 1);
     right = glm::vec3(1, 0, 0);
     up = glm::vec3(0, 1, 0);
 
@@ -70,9 +70,9 @@ void Transform::Update(const float& dt) {
 
     model = glm::translate(model, velocity * dt);
     model = glm::rotate(model, glm::clamp(-rotation.x, (float)(-M_PI / 2.0 * 0.9), (float)(M_PI / 2.0f * 0.9f)), glm::vec3(0, 1, 0));
-    model = glm::rotate(model, glm::clamp(-rotation.y, (float)(-M_PI / 2.0 * 0.9), (float)(M_PI / 2.0f * 0.9f)), glm::vec3(1, 0, 0));
+    model = glm::rotate(model, glm::clamp(rotation.y, (float)(-M_PI / 2.0 * 0.9), (float)(M_PI / 2.0f * 0.9f)), glm::vec3(1, 0, 0));
 
-    forward = -glm::vec3(model[2]);
+    forward = glm::vec3(model[2]);
     up = glm::vec3(model[1]);
-    right = glm::vec3(model[0]);
+    right = -glm::vec3(model[0]);
 }

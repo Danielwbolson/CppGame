@@ -453,8 +453,8 @@ static Map MapParse(Map& map, std::string fileName, Scene* s) {
 
     s->instances.reserve(map.layout.size());
     // Create actual grid
-    for (int i = 0; i < width; i++) {
-        for (int j = 0; j < height; j++) {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
             bool flag = true;
             GameObject* g = new GameObject();
             Transform* t = new Transform();
@@ -471,7 +471,7 @@ static Map MapParse(Map& map, std::string fileName, Scene* s) {
                 break;
             }
             case goal: {
-                flag = false;
+                g = new GameObject(*(s->FindGameObject("goal")));
                 break;
             }
             case door1: {
@@ -521,9 +521,9 @@ static Map MapParse(Map& map, std::string fileName, Scene* s) {
 
             if (flag) {
                 t = g->GetTransform();
-                t->SetPosition(glm::vec3((float)s->cube_width * j, 0, (float)s->cube_width * i));
-                for (int i = 0; i < g->components.size(); i++) {
-                    g->components[i]->gameObject = g;
+                t->SetPosition(glm::vec3((float)s->cube_width * i, 0, (float)s->cube_width * j));
+                for (int k = 0; k < g->components.size(); k++) {
+                    g->components[k]->gameObject = g;
                 }
                 s->instances.push_back(g);
             }

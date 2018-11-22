@@ -57,7 +57,7 @@ bool BoxCollider::CollisionDetect(const Collider& c, const float& dt) const {
     glm::vec3 v = t->velocity * dt;
 
     Vec3 vec = c.position - (position + 3 * Vec3(v.x, v.y, v.z));
-    float minDist = MaxBoundsInDir(vec.Normalize()) + c.MaxBoundsInDir(-vec.Normalize());
+    float minDist = MaxBoundsInDir(position + 3 * Vec3(v.x, v.y, v.z)) + c.MaxBoundsInDir(-vec.Normalize());
     float diff = minDist - vec.Length();
 
     return (diff >= 0.01f);
